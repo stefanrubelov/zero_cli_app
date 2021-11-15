@@ -1,0 +1,10 @@
+[
+    {   
+        "id": "integer",
+        "active": "true/false",
+        "start_time": "DateTime",
+        "end_time": "DateTime/null",
+        "elapsed_time": "now - start_time",
+        "fasting_type": "option/option/option"
+    }
+]

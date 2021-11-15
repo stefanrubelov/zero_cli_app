@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+use App\Console\Input;
+use App\MainController;
+
+
+require_once "./vendor/autoload.php";
+
+
+// require_once __DIR__ . '/App/MainController.php';
+
+// use \App\MainController;
+
+
+$test = new MainController(
+    new Input()
+);
+$test->run();
