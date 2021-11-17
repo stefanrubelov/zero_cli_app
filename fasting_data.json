@@ -1,7 +1,23 @@
 [
     {   
         "id": "integer",
-        "active": "true/false",
+        "active": "false",
+        "start_time": "DateTime",
+        "end_time": "DateTime/null",
+        "elapsed_time": "now - start_time",
+        "fasting_type": "option/option/option"
+    },
+    {   
+        "id": "integer2",
+        "active": "false",
+        "start_time": "DateTime",
+        "end_time": "DateTime/null",
+        "elapsed_time": "now - start_time",
+        "fasting_type": "option/option/option"
+    },
+    {   
+        "id": "integer3",
+        "active": "false",
         "start_time": "DateTime",
         "end_time": "DateTime/null",
         "elapsed_time": "now - start_time",

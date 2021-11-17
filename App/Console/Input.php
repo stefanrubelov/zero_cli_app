@@ -4,7 +4,7 @@ namespace App\Console;
 
 class Input
 {
-    public function returnInput()
+    public function returnInput(): string
     {
         return trim(fgets(STDIN), "\n\r");
     }
