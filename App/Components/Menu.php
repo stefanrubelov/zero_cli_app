@@ -40,7 +40,7 @@ class Menu
      * Array of actions for executing the menu options
      */
     public array $actions = [
-        // 1 => 'check fast status',
+        1 => CheckFastStatus::class,
         2 => FastController::class,
         // 3 => 'End an active fast',
         // 4 => 'Update an active fast',
@@ -71,10 +71,10 @@ class Menu
         }
         $userInput = $this->input->returnInput();
 
-        if (key_exists($userInput, $this->actions) and $userInput != "6") {
+        if (key_exists($userInput, $this->actions) && $userInput != "6") {
             $object = new $this->actions[$userInput]($this->input, new Output);
             $object();
-        } elseif (!key_exists($userInput, $this->actions) and $userInput != "6") {
+        } elseif (!key_exists($userInput, $this->actions) && $userInput != "6") {
             echo $this->output->red('Please select a valid item from the menu');
             $this->alreadyOpened = true;
             $this->printMenu();

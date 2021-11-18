@@ -16,7 +16,7 @@ class FastController
     private bool $fastTypeError = false;
     private $output = null;
     public string $fastDate;
-    public int $fastType;
+    public $fastType;
     protected $validator;
     private $menu;
 
@@ -66,15 +66,21 @@ class FastController
         foreach ($this->fast_types as $key => $value) {
             echo $this->output->yellow("[$key]__$value");
         }
-        $this->fastType = $this->input->returnInput();
+        try {
+            $this->fastType = $this->input->returnInput();
+        } catch (\Throwable $th) {
+            echo $this->output->red('Please choose an item from the menu');
+            return false;
+        }
         if (key_exists($this->fastType, $this->fast_types)) {
             // $this->fastType = $this->input->returnInput();
             // echo "this is your fast type $this->fastType, and it starts on $this->fastDate \n\r";
             // return;
-        } else {
+        } else if (!key_exists($this->fastType, $this->fast_types) && is_int($this->fastType)) {
             echo $this->output->red('Please choose an item from the menu');
             $this->fastTypeError = true;
             $this->getFastType();
+            return false;
         }
     }
 
@@ -83,11 +89,11 @@ class FastController
         $new_data_arr = [];
         $fast_type_hours = (int)explode(' ', $this->fast_types[$fast_type_id])[0];
         $old_data_arr = json_decode(file_get_contents('./fasting_data.json'), true);
-        // $end_date = Carbon::parse($start_date)->addHours($fast_type_hours);
+        $end_time = Carbon::parse($start_date)->addHours($fast_type_hours);
         $newdata = [
-            'active' => 'true',
+            'active' => false,
             'start_time' => Carbon::parse($start_date),
-            'end_time' => '',
+            'end_time' => $end_time,
             'elapsed_time' => '',
             'fast_type' => $this->fast_types[$fast_type_id]
         ];

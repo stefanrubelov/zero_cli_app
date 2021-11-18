@@ -1,0 +1,37 @@
+[
+    {
+        "active": false,
+        "start_time": "2021-12-01T10:00:00.000000Z",
+        "end_time": "",
+        "elapsed_time": "",
+        "fast_type": "20 hours"
+    },
+    {
+        "active": false,
+        "start_time": "2021-12-19T10:00:00.000000Z",
+        "end_time": "",
+        "elapsed_time": "",
+        "fast_type": "18 hours"
+    },
+    {
+        "active": false,
+        "start_time": "2021-12-12T10:00:00.000000Z",
+        "end_time": "",
+        "elapsed_time": "",
+        "fast_type": "36 hours"
+    },
+    {
+        "active": false,
+        "start_time": "2022-01-01T10:00:00.000000Z",
+        "end_time": "",
+        "elapsed_time": "",
+        "fast_type": "20 hours"
+    },
+    {
+        "active": true,
+        "start_time": "2022-10-10T12:00:00.000000Z",
+        "end_time": "2022-10-11T06:00:00.000000Z",
+        "elapsed_time": "",
+        "fast_type": "18 hours"
+    }
+]

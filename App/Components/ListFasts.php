@@ -24,11 +24,11 @@ class ListFasts extends Output
     {
         $data = json_decode(file_get_contents('./fasting_data.json'));
         echo "\n\r";
+        echo $this->magenta("----------------------------------------------");
         if ($data) {
             foreach ($data as $key) {
                 $time_diff = $this->cyan(Carbon::parse($key->start_time)->diffForHumans(['parts' => 5], null, true));
-
-                echo "Status: ", $key->active == "true" ? $this->cyan("Active") : $this->cyan("Finished");
+                echo "Status: ", $key->active == true ? $this->cyan("Active") : $this->cyan("Finished");
                 echo "Start time: ", $this->cyan($key->start_time);
                 echo "End time: ", $this->cyan($key->end_time);
                 echo (Carbon::now() > $key->start_time) ? "Elapsed time: " . $time_diff : "Starts in: " . $time_diff;
@@ -36,7 +36,8 @@ class ListFasts extends Output
                 echo $this->magenta("----------------------------------------------");
             }
         } else {
-            echo $this->yellow("No fasts available.");
+            echo $this->magenta("----------------------------------------------");
+            echo $this->yellow("No fast data available.");
             echo $this->magenta("----------------------------------------------");
         }
         $this->menu->backToMenu();
