@@ -4,16 +4,17 @@ namespace App\Components;
 
 use App\Console\Input;
 use App\Console\Output;
-use App\Components\ListFasts;
-use App\Components\CreateFast;
 use App\Validator\Validator;
+use App\Components\ListFasts;
+use App\Components\FastController;
 
 class Menu
 {
-    private bool $alreadyOpened = false;
     private $output;
     private $validator;
-    private $errorFlag = false;
+    private bool $alreadyOpened = false;
+    private bool $errorFlag = false;
+
     public function __construct(
         protected Input $input,
         Output $output,
@@ -40,19 +41,18 @@ class Menu
      */
     public array $actions = [
         // 1 => 'check fast status',
-        2 => CreateFast::class,
+        2 => FastController::class,
         // 3 => 'End an active fast',
         // 4 => 'Update an active fast',
         5 => ListFasts::class,
-        6 => 'Exit the app',
     ];
+
     /**
      * List the menu items
      * @return array
      */
     public function printMenu()
     {
-
         if ($this->validator->checkActiveFasts()) {
             unset($this->menu[2]);
             unset($this->actions[2]);
@@ -63,6 +63,9 @@ class Menu
             unset($this->actions[4]);
         }
 
+        if ($this->alreadyOpened == false) {
+            echo $this->output->cyan('Please select an item from the menu');
+        }
         foreach ($this->menu as $key => $value) {
             echo $this->output->yellow("[$key]__$value");
         }
@@ -75,9 +78,9 @@ class Menu
             echo $this->output->red('Please select a valid item from the menu');
             $this->alreadyOpened = true;
             $this->printMenu();
-        }
-        if ($this->alreadyOpened == false) {
-            echo $this->output->yellow('Please select an item from the menu');
+        } elseif ($userInput == '6') {
+            echo $this->output->blue('Goodbye');
+            exit;
         }
     }
     /**

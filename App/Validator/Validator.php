@@ -2,8 +2,8 @@
 
 namespace App\Validator;
 
-use App\Console\Output;
 use Carbon\Carbon;
+use App\Console\Output;
 
 class Validator extends Output
 {
@@ -11,13 +11,13 @@ class Validator extends Output
     public string $input;
     public object $inputDate;
 
-    public function __construct()
-    {
-    }
-
+    /**
+     * Validate input date
+     * @return bool
+     */
     public function validateDate($userInput): string
     {
-        $this->now = Carbon::now();
+        $this->now = Carbon::now()->setTimezone('Europe/Skopje');
 
         try {
             $this->inputDate = Carbon::createFromFormat('Y-m-d H:i:s', $userInput);
@@ -33,6 +33,7 @@ class Validator extends Output
 
         return true;
     }
+
     /**
      * Checks if there is an active fast in the saved data
      * @return bool
@@ -40,10 +41,12 @@ class Validator extends Output
     public function checkActiveFasts()
     {
         $data = json_decode(file_get_contents('./fasting_data.json'));
-        foreach ($data as $key => $value) {
-            foreach ($value as $item) {
-                if ($item == 'true') {
-                    return true;
+        if ($data) {
+            foreach ($data as $key => $value) {
+                foreach ($value as $item) {
+                    if ($item == 'true') {
+                        return true;
+                    }
                 }
             }
         }
