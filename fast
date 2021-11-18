@@ -4,7 +4,7 @@
 date_default_timezone_set('Etc/GMT+0');
 
 use App\Console\Input;
-use App\MainController;
+use App\Controllers\MainController;
 
 require_once "./vendor/autoload.php";
 

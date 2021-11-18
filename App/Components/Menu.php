@@ -6,7 +6,7 @@ use App\Console\Input;
 use App\Console\Output;
 use App\Validator\Validator;
 use App\Components\ListFasts;
-use App\FastController;
+use App\Controllers\FastController;
 
 class Menu
 {
