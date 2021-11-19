@@ -33,7 +33,7 @@ class FastController
     ) {
         $this->output = $output;
         $this->validator = new Validator();
-        $this->menu = new Menu($this->input, new Output(), new Validator());
+        $this->menu = new Menu($this->input);
     }
 
     public function __invoke()
@@ -76,7 +76,7 @@ class FastController
             // $this->fastType = $this->input->returnInput();
             // echo "this is your fast type $this->fastType, and it starts on $this->fastDate \n\r";
             // return;
-        } else if (!key_exists($this->fastType, $this->fast_types) && is_int($this->fastType)) {
+        } else if (!key_exists($this->fastType, $this->fast_types) && is_int((int)$this->fastType)) {
             echo $this->output->red('Please choose an item from the menu');
             $this->fastTypeError = true;
             $this->getFastType();
@@ -91,10 +91,9 @@ class FastController
         $old_data_arr = json_decode(file_get_contents('./fasting_data.json'), true);
         $end_time = Carbon::parse($start_date)->addHours($fast_type_hours);
         $newdata = [
-            'active' => false,
+            'active' => true,
             'start_time' => Carbon::parse($start_date),
             'end_time' => $end_time,
-            'elapsed_time' => '',
             'fast_type' => $this->fast_types[$fast_type_id]
         ];
         if ($old_data_arr) {
@@ -106,6 +105,6 @@ class FastController
 
         file_put_contents('./fasting_data.json', json_encode($new_data_arr));
         echo $this->output->cyan('New fast added');
-        $this->menu->printMenu();
+        $this->menu->backToMenu();
     }
 }

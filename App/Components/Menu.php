@@ -4,8 +4,10 @@ namespace App\Components;
 
 use App\Console\Input;
 use App\Console\Output;
+use App\Options\ListFasts;
 use App\Validator\Validator;
-use App\Components\ListFasts;
+use App\Options\EndActiveFast;
+use App\Options\CheckFastStatus;
 use App\Controllers\FastController;
 
 class Menu
@@ -17,18 +19,16 @@ class Menu
 
     public function __construct(
         protected Input $input,
-        Output $output,
-        Validator $validator
     ) {
-        $this->output = $output;
-        $this->validator = $validator;
+        $this->output = new Output;
+        $this->validator = new Validator();
     }
 
     /**
      * Menu for the (fast) options
      */
     public array $menu = [
-        1 => 'Check a fast Status',
+        1 => 'Check a fast status',
         2 => 'Start a new fast',
         3 => 'End an active fast',
         4 => 'Update an active fast',
@@ -42,7 +42,7 @@ class Menu
     public array $actions = [
         1 => CheckFastStatus::class,
         2 => FastController::class,
-        // 3 => 'End an active fast',
+        3 => EndActiveFast::class,
         // 4 => 'Update an active fast',
         5 => ListFasts::class,
     ];

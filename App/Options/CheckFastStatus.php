@@ -1,11 +1,12 @@
 <?php
 
 
-namespace App\Components;
+namespace App\Options;
 
 use Carbon\Carbon;
 use App\Console\Input;
 use App\Console\Output;
+use App\Components\Menu;
 use App\Validator\Validator;
 
 class CheckFastStatus
@@ -13,7 +14,6 @@ class CheckFastStatus
     // private $input;
     private $output;
     private $menu;
-    private $trueFlag = true;
     public function __construct(
         protected Input $input,
         Output $output
@@ -21,7 +21,13 @@ class CheckFastStatus
         $this->output = $output;
         $this->menu = new Menu($this->input, $this->output, new Validator);
     }
+
     public function __invoke()
+    {
+        $this->checkFastStatus();
+    }
+
+    public function checkFastStatus()
     {
         $data = json_decode(file_get_contents('./fasting_data.json'));
         if ($data) {

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Components;
+namespace App\Options;
 
 use App\Console\Input;
 use App\Console\Output;
 use App\Components\Menu;
-use App\Validator\Validator;
 use Carbon\Carbon;
 
 class ListFasts extends Output
@@ -18,7 +17,7 @@ class ListFasts extends Output
         Output $output
     ) {
         $this->output = $output;
-        $this->menu = new Menu($this->input, $this->output, new Validator);
+        $this->menu = new Menu($this->input);
     }
     public function __invoke()
     {
