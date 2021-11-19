@@ -58,7 +58,7 @@ class Menu
      * List the menu items
      * @return array
      */
-    public function printMenu()
+    public function mainMenu()
     {
         if ($this->validator->checkActiveFasts()) {
             unset($this->menu[2]);
@@ -83,7 +83,7 @@ class Menu
         } elseif (!key_exists($userInput, $this->actions) && $userInput != "6") {
             echo $this->output->red('Please select a valid item from the menu');
             $this->menu_already_opened = true;
-            $this->printMenu();
+            $this->mainMenu();
         } elseif ($userInput == '6') {
             echo $this->output->blue('Goodbye');
             exit;
@@ -93,7 +93,7 @@ class Menu
      * Back to menu method
      * @return array
      */
-    public function backToMenu()
+    public function secondaryMenu()
     {
         foreach ($this->secondary_menu as $key => $value) {
             echo $this->output->yellow("[$key]__$value");
@@ -101,13 +101,13 @@ class Menu
 
         $userInput = $this->input->returnInput();
         if ($userInput == '1') {
-            $this->printMenu();
+            $this->mainMenu();
         } elseif ($userInput == '2') {
             echo $this->output->blue('Goodbye');
             exit;
         } else {
             echo $this->output->red("Press a key from the menu");
-            $this->backToMenu();
+            $this->secondaryMenu();
         }
     }
 }

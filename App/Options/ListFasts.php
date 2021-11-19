@@ -43,6 +43,6 @@ class ListFasts extends Output
             echo $this->yellow("No fast data available.");
             echo $this->magenta("----------------------------------------------");
         }
-        $this->menu->backToMenu();
+        $this->menu->secondaryMenu();
     }
 }

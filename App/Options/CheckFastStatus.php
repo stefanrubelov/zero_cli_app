@@ -42,7 +42,7 @@ class CheckFastStatus
                         echo (Carbon::now() > $value->start_time) ? "Elapsed time: " . $time_diff : "Starts in: " . $time_diff;
                         echo "fasting_type: ", $this->output->cyan($value->fast_type);
                         echo $this->output->magenta("----------------------------------------------");
-                        $this->menu->backToMenu();
+                        $this->menu->secondaryMenu();
                         return;
                     }
                 }
@@ -51,12 +51,12 @@ class CheckFastStatus
             echo $this->output->magenta("----------------------------------------------");
             echo $this->output->yellow("No fast data available.");
             echo $this->output->magenta("----------------------------------------------");
-            $this->menu->backToMenu();
+            $this->menu->secondaryMenu();
             return;
         }
         echo $this->output->magenta("----------------------------------------------");
         echo $this->output->yellow("No active fast.");
         echo $this->output->magenta("----------------------------------------------");
-        $this->menu->backToMenu();
+        $this->menu->secondaryMenu();
     }
 }

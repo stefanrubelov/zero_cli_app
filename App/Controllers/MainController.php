@@ -20,6 +20,6 @@ class MainController
      */
     public function run()
     {
-        $this->menu->printMenu();
+        $this->menu->mainMenu();
     }
 }

@@ -102,6 +102,6 @@ class FastController
         array_push($new_data_arr, $newdata);
         file_put_contents('./fasting_data.json', json_encode($new_data_arr));
         echo $this->output->cyan('New fast added');
-        $this->menu->backToMenu();
+        $this->menu->secondaryMenu();
     }
 }

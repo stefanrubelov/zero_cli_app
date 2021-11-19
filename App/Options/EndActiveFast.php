@@ -29,7 +29,7 @@ class EndActiveFast
             echo $this->output->yellow('Are you sure you want to end the fast? [Y/N]');
         $user_input = $this->input->returnInput();
         if (strtolower($user_input) == 'n') {
-            $this->menu->printMenu();
+            $this->menu->mainMenu();
         } else if (strtolower($user_input) == 'y') {
             $new_data_arr = [];
             $data = json_decode(file_get_contents('./fasting_data.json'), true);
@@ -42,19 +42,19 @@ class EndActiveFast
                 echo $this->output->magenta("----------------------------------------------");
                 echo $this->output->yellow("Fast ended.");
                 echo $this->output->magenta("----------------------------------------------");
-                $this->menu->backToMenu();
+                $this->menu->secondaryMenu();
                 return;
             } else {
                 echo $this->output->magenta("----------------------------------------------");
                 echo $this->output->yellow("No fast data available.");
                 echo $this->output->magenta("----------------------------------------------");
-                $this->menu->backToMenu();
+                $this->menu->secondaryMenu();
                 return;
             }
             echo $this->output->magenta("----------------------------------------------");
             echo $this->output->yellow("No active fast.");
             echo $this->output->magenta("----------------------------------------------");
-            $this->menu->backToMenu();
+            $this->menu->secondaryMenu();
         } else {
             echo $this->output->red('Please type Y to end an active fast, and N to go back to the main menu');
             $this->error_flag = true;
