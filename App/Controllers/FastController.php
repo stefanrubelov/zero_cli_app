@@ -12,13 +12,13 @@ use App\Validator\Validator;
 
 class FastController
 {
-    private $menu;
-    private $output = null;
-    private bool $errorFlag = false;
-    private bool $fastTypeError = false;
-    public string $fastDate;
-    public $fastType;
-    protected $validator;
+    private $output;
+    private object $menu;
+    private object $validator;
+    private bool $start_date_error_flag = false;
+    private bool $fast_type_error_flag = false;
+    public string $fast_date;
+    public string $fast_type;
 
     public array $fast_types = [
         1 => '16 hours',
@@ -40,43 +40,39 @@ class FastController
     {
         $this->getStartDate();
         $this->getFastType();
-        $this->saveFast($this->fastDate, $this->fastType);
+        $this->saveFast($this->fast_date, $this->fast_type);
     }
 
     public function getStartDate()
     {
-        if (!$this->errorFlag) {
-            echo $this->output->blue('Start a new fast.');
+        if (!$this->start_date_error_flag) {
             echo $this->output->blue('Please enter a start date and time (Y-M-D H:M:S)');
         }
-        $this->fastDate = $this->input->returnInput();
-        $validator = $this->validator->validateDate($this->fastDate);
+        $this->fast_date = $this->input->returnInput();
+        $validator = $this->validator->validateDate($this->fast_date);
         if (!$validator) {
-            $this->errorFlag = true;
+            $this->start_date_error_flag = true;
             $this->getStartDate();
         }
     }
 
     public function getFastType()
     {
-        if (!$this->fastTypeError)
+        if (!$this->fast_type_error_flag)
             echo $this->output->blue('Please select a fast type');
         foreach ($this->fast_types as $key => $value) {
             echo $this->output->yellow("[$key]__$value");
         }
         try {
-            $this->fastType = $this->input->returnInput();
+            $this->fast_type = $this->input->returnInput();
         } catch (\Throwable $th) {
             echo $this->output->red('Please choose an item from the menu');
             return false;
         }
-        if (key_exists($this->fastType, $this->fast_types)) {
-            // $this->fastType = $this->input->returnInput();
-            // echo "this is your fast type $this->fastType, and it starts on $this->fastDate \n\r";
-            // return;
-        } else if (!key_exists($this->fastType, $this->fast_types) && is_int((int)$this->fastType)) {
+        if (key_exists($this->fast_type, $this->fast_types)) {
+        } else if (!key_exists($this->fast_type, $this->fast_types) && is_int((int)$this->fastType)) {
             echo $this->output->red('Please choose an item from the menu');
-            $this->fastTypeError = true;
+            $this->fast_type_error_flag = true;
             $this->getFastType();
             return false;
         }

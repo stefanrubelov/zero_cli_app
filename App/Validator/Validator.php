@@ -2,6 +2,8 @@
 
 namespace App\Validator;
 
+date_default_timezone_set('Etc/GMT+0');
+
 use Carbon\Carbon;
 use App\Console\Output;
 
@@ -17,20 +19,20 @@ class Validator extends Output
      */
     public function validateDate($userInput): string
     {
-        $this->now = Carbon::now()->setTimezone('Europe/Skopje');
+        $this->now = Carbon::now()->addHour();
 
         try {
-            $this->inputDate = Carbon::createFromFormat('Y-m-d H:i:s', $userInput);
+            $this->inputDate = Carbon::parse($userInput);
+            // $this->inputDate = Carbon::createFromFormat('Y-m-d H:i:s', $userInput);
         } catch (\Exception $e) {
             echo $this->red("Invalid date/time format, try again");
             return false;
         }
 
-        if ($this->inputDate && $this->inputDate < $this->now) {
+        if ($this->inputDate < $this->now) {
             echo $this->red("You cant enter a past date/time in the past, try again");
             return false;
         }
-
         return true;
     }
 

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Options;
 
 use Carbon\Carbon;
@@ -11,7 +10,6 @@ use App\Validator\Validator;
 
 class CheckFastStatus
 {
-    // private $input;
     private $output;
     private $menu;
     public function __construct(
@@ -21,12 +19,10 @@ class CheckFastStatus
         $this->output = $output;
         $this->menu = new Menu($this->input, $this->output, new Validator);
     }
-
     public function __invoke()
     {
         $this->checkFastStatus();
     }
-
     public function checkFastStatus()
     {
         $data = json_decode(file_get_contents('./fasting_data.json'));
@@ -34,7 +30,7 @@ class CheckFastStatus
             foreach ($data as $key => $value) {
                 foreach ($value as $item) {
                     if ($item === true) {
-                        $time_diff = $this->output->cyan(Carbon::parse($value->start_time)->diffForHumans(['parts' => 5], null, true));
+                        $time_diff = $this->output->cyan(Carbon::parse($value->start_time)->diffForHumans(Carbon::now()->addHour(), ['parts' => 5], null, true));
                         echo $this->output->magenta("----------------------------------------------");
                         echo "Status: ", $value->active == true ? $this->output->cyan("Active") : $this->output->cyan("Finished");
                         echo "Start time: ", $this->output->cyan(Carbon::parse($value->start_time));

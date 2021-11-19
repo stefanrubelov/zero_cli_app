@@ -8,13 +8,14 @@ use App\Options\ListFasts;
 use App\Validator\Validator;
 use App\Options\EndActiveFast;
 use App\Options\CheckFastStatus;
+use App\Options\UpdateActiveFast;
 use App\Controllers\FastController;
 
 class Menu
 {
     private $output;
     private $validator;
-    private bool $menu_already_opened = false;
+    private bool $menu_opened_flag = false;
 
     public function __construct(
         protected Input $input,
@@ -22,7 +23,6 @@ class Menu
         $this->output = new Output;
         $this->validator = new Validator();
     }
-
     /**
      * Menu for the (fast) options
      */
@@ -42,18 +42,17 @@ class Menu
         1 => 'Back to menu',
         2 => 'Exit the app'
     ];
-
     /**
      * Array of actions for executing the menu options
+     * @return array
      */
     public array $actions = [
         1 => CheckFastStatus::class,
         2 => FastController::class,
         3 => EndActiveFast::class,
-        // 4 => 'Update an active fast',
+        4 => UpdateActiveFast::class,
         5 => ListFasts::class,
     ];
-
     /**
      * List the menu items
      * @return array
@@ -69,7 +68,7 @@ class Menu
             unset($this->menu[4]);
             unset($this->actions[4]);
         }
-        if ($this->menu_already_opened == false) {
+        if ($this->menu_opened_flag == false) {
             echo $this->output->cyan('Please select an item from the menu');
         }
         foreach ($this->menu as $key => $value) {
@@ -82,7 +81,7 @@ class Menu
             $object();
         } elseif (!key_exists($userInput, $this->actions) && $userInput != "6") {
             echo $this->output->red('Please select a valid item from the menu');
-            $this->menu_already_opened = true;
+            $this->menu_opened_flag = true;
             $this->mainMenu();
         } elseif ($userInput == '6') {
             echo $this->output->blue('Goodbye');
@@ -98,7 +97,6 @@ class Menu
         foreach ($this->secondary_menu as $key => $value) {
             echo $this->output->yellow("[$key]__$value");
         }
-
         $userInput = $this->input->returnInput();
         if ($userInput == '1') {
             $this->mainMenu();

@@ -9,7 +9,6 @@ use Carbon\Carbon;
 
 class ListFasts extends Output
 {
-    private $output;
     private $menu;
 
     public function __construct(
@@ -26,7 +25,6 @@ class ListFasts extends Output
     public function listFasts()
     {
         $data = json_decode(file_get_contents('./fasting_data.json'));
-        // echo "\n\r";
         echo $this->magenta("----------------------------------------------");
         if ($data) {
             foreach ($data as $key) {

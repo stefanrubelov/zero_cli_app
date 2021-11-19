@@ -11,7 +11,7 @@ class EndActiveFast
     private $input;
     private $output;
     private $menu;
-    private bool $error_flag = false;
+    private bool $end_active_fast_error_flag = false;
     public function __invoke()
     {
         $this->endActiveFast();
@@ -25,7 +25,7 @@ class EndActiveFast
 
     public function endActiveFast()
     {
-        if (!$this->error_flag)
+        if (!$this->end_active_fast_error_flag)
             echo $this->output->yellow('Are you sure you want to end the fast? [Y/N]');
         $user_input = $this->input->returnInput();
         if (strtolower($user_input) == 'n') {
@@ -57,7 +57,7 @@ class EndActiveFast
             $this->menu->secondaryMenu();
         } else {
             echo $this->output->red('Please type Y to end an active fast, and N to go back to the main menu');
-            $this->error_flag = true;
+            $this->end_active_fast_error_flag = true;
             $this->endActiveFast();
         }
     }
