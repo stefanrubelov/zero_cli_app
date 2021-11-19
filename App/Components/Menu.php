@@ -14,8 +14,7 @@ class Menu
 {
     private $output;
     private $validator;
-    private bool $alreadyOpened = false;
-    private bool $errorFlag = false;
+    private bool $menu_already_opened = false;
 
     public function __construct(
         protected Input $input,
@@ -28,12 +27,20 @@ class Menu
      * Menu for the (fast) options
      */
     public array $menu = [
-        1 => 'Check a fast status',
+        1 => 'Check fast status',
         2 => 'Start a new fast',
         3 => 'End an active fast',
         4 => 'Update an active fast',
         5 => 'List all fasts',
         6 => 'Exit the app'
+    ];
+    /**
+     * Secondary menu for actions after successfull menu option execution
+     * 
+     */
+    public array $secondary_menu = [
+        1 => 'Back to menu',
+        2 => 'Exit the app'
     ];
 
     /**
@@ -62,8 +69,7 @@ class Menu
             unset($this->menu[4]);
             unset($this->actions[4]);
         }
-
-        if ($this->alreadyOpened == false) {
+        if ($this->menu_already_opened == false) {
             echo $this->output->cyan('Please select an item from the menu');
         }
         foreach ($this->menu as $key => $value) {
@@ -76,7 +82,7 @@ class Menu
             $object();
         } elseif (!key_exists($userInput, $this->actions) && $userInput != "6") {
             echo $this->output->red('Please select a valid item from the menu');
-            $this->alreadyOpened = true;
+            $this->menu_already_opened = true;
             $this->printMenu();
         } elseif ($userInput == '6') {
             echo $this->output->blue('Goodbye');
@@ -89,9 +95,8 @@ class Menu
      */
     public function backToMenu()
     {
-        if (!$this->errorFlag) {
-            echo $this->output->yellow("[1]__Back to menu");
-            echo $this->output->yellow("[2]__Exit");
+        foreach ($this->secondary_menu as $key => $value) {
+            echo $this->output->yellow("[$key]__$value");
         }
 
         $userInput = $this->input->returnInput();
@@ -101,10 +106,7 @@ class Menu
             echo $this->output->blue('Goodbye');
             exit;
         } else {
-            $this->errorFlag = true;
             echo $this->output->red("Press a key from the menu");
-            echo $this->output->yellow("[1]__Back to menu");
-            echo $this->output->yellow("[2]__Exit");
             $this->backToMenu();
         }
     }

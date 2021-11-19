@@ -12,13 +12,13 @@ use App\Validator\Validator;
 
 class FastController
 {
+    private $menu;
+    private $output = null;
     private bool $errorFlag = false;
     private bool $fastTypeError = false;
-    private $output = null;
     public string $fastDate;
     public $fastType;
     protected $validator;
-    private $menu;
 
     public array $fast_types = [
         1 => '16 hours',
@@ -50,7 +50,6 @@ class FastController
             echo $this->output->blue('Please enter a start date and time (Y-M-D H:M:S)');
         }
         $this->fastDate = $this->input->returnInput();
-
         $validator = $this->validator->validateDate($this->fastDate);
         if (!$validator) {
             $this->errorFlag = true;
@@ -62,7 +61,6 @@ class FastController
     {
         if (!$this->fastTypeError)
             echo $this->output->blue('Please select a fast type');
-
         foreach ($this->fast_types as $key => $value) {
             echo $this->output->yellow("[$key]__$value");
         }
@@ -102,7 +100,6 @@ class FastController
             }
         }
         array_push($new_data_arr, $newdata);
-
         file_put_contents('./fasting_data.json', json_encode($new_data_arr));
         echo $this->output->cyan('New fast added');
         $this->menu->backToMenu();
