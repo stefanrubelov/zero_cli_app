@@ -21,8 +21,12 @@ class ListFasts extends Output
     }
     public function __invoke()
     {
+        $this->listFasts();
+    }
+    public function listFasts()
+    {
         $data = json_decode(file_get_contents('./fasting_data.json'));
-        echo "\n\r";
+        // echo "\n\r";
         echo $this->magenta("----------------------------------------------");
         if ($data) {
             foreach ($data as $key) {

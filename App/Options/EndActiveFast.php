@@ -22,6 +22,7 @@ class EndActiveFast
         $this->output = new Output();
         $this->menu = new Menu(new Input());
     }
+
     public function endActiveFast()
     {
         if (!$this->error_flag)
@@ -55,7 +56,7 @@ class EndActiveFast
             echo $this->output->magenta("----------------------------------------------");
             $this->menu->backToMenu();
         } else {
-            echo $this->output->red('Please type Y if you want to end an active fast, and N if you want to go back to the menu');
+            echo $this->output->red('Please type Y to end an active fast, and N to go back to the main menu');
             $this->error_flag = true;
             $this->endActiveFast();
         }
