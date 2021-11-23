@@ -9,8 +9,16 @@ use Carbon\Carbon;
 
 class ListFasts extends Output
 {
+    /**
+     * @var Menu $menu
+     */
     private $menu;
 
+    /**
+     * ListFasts constructor
+     * @param Input $input
+     * @param Output $output
+     */
     public function __construct(
         protected Input $input,
         Output $output
@@ -18,14 +26,25 @@ class ListFasts extends Output
         $this->output = $output;
         $this->menu = new Menu($this->input);
     }
+
+    /**
+     * ListFasts invoke 
+     * Outputs listFasts() method
+     * 
+     * @return saveNewFast()
+     */
     public function __invoke()
     {
         $this->listFasts();
     }
-    public function listFasts()
+
+    /**
+     * Iterates and outputs all available fasts
+     * @return void
+     */
+    public function listFasts(): void
     {
-        $data = json_decode(file_get_contents('./fasting_data.json'));
-        echo $this->magenta("----------------------------------------------");
+        $data = json_decode(file_get_contents(FASTING_DATA_JSON_FILE));
         if ($data) {
             foreach ($data as $key) {
                 $time_diff = $this->cyan(Carbon::parse($key->start_time)->diffForHumans(['parts' => 5], null, true));

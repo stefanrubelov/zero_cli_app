@@ -4,29 +4,46 @@ namespace App\Components;
 
 use App\Console\Input;
 use App\Console\Output;
+use App\Controllers\FastController;
 use App\Options\ListFasts;
-use App\Validator\Validator;
 use App\Options\EndActiveFast;
 use App\Options\CheckFastStatus;
 use App\Options\UpdateActiveFast;
-use App\Controllers\FastController;
+use App\Validator\Validator;
 
 class Menu
 {
+    /**
+     * @var Output $output
+     */
     private $output;
-    private $validator;
-    private bool $menu_opened_flag = false;
 
+    /**
+     * @object Validator $validator
+     */
+    private $validator;
+
+    /**
+     * @var bool $menu_error_flag
+     */
+    private $menu_error_flag = false;
+
+    /**
+     * Menu constructor
+     * @param Input $input
+     */
     public function __construct(
         protected Input $input,
     ) {
         $this->output = new Output;
         $this->validator = new Validator();
     }
+
     /**
+     * @var array $menu
      * Menu for the (fast) options
      */
-    public array $menu = [
+    public $menu = [
         1 => 'Check fast status',
         2 => 'Start a new fast',
         3 => 'End an active fast',
@@ -34,30 +51,36 @@ class Menu
         5 => 'List all fasts',
         6 => 'Exit the app'
     ];
+
     /**
+     * @var array $secondary_menu
      * Secondary menu for actions after successfull menu option execution
-     * 
      */
-    public array $secondary_menu = [
+    public $secondary_menu = [
         1 => 'Back to menu',
         2 => 'Exit the app'
     ];
+
     /**
+     * @array $actions
      * Array of actions for executing the menu options
-     * @return array
      */
-    public array $actions = [
+    public $actions = [
         1 => CheckFastStatus::class,
         2 => FastController::class,
         3 => EndActiveFast::class,
         4 => UpdateActiveFast::class,
         5 => ListFasts::class,
     ];
+
     /**
-     * List the menu items
-     * @return array
+     * Output the menu items
+     * Output error messages 
+     * Output menu items
+     * 
+     * @return void
      */
-    public function mainMenu()
+    public function mainMenu(): void
     {
         if ($this->validator->checkActiveFasts()) {
             unset($this->menu[2]);
@@ -68,7 +91,8 @@ class Menu
             unset($this->menu[4]);
             unset($this->actions[4]);
         }
-        if ($this->menu_opened_flag == false) {
+
+        if ($this->menu_error_flag == false) {
             echo $this->output->cyan('Please select an item from the menu');
         }
         foreach ($this->menu as $key => $value) {
@@ -81,18 +105,21 @@ class Menu
             $object();
         } elseif (!key_exists($userInput, $this->actions) && $userInput != "6") {
             echo $this->output->red('Please select a valid item from the menu');
-            $this->menu_opened_flag = true;
+            $this->menu_error_flag = true;
             $this->mainMenu();
         } elseif ($userInput == '6') {
             echo $this->output->blue('Goodbye');
             exit;
         }
     }
+
     /**
-     * Back to menu method
-     * @return array
+     * Output secondary menu
+     * Output error messages
+     * 
+     * @return void
      */
-    public function secondaryMenu()
+    public function secondaryMenu(): void
     {
         foreach ($this->secondary_menu as $key => $value) {
             echo $this->output->yellow("[$key]__$value");

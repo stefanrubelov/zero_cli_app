@@ -1,8 +1,22 @@
 Zero CLI
-A command line interface application based on Zero
+A command line interface application based on
+
+REQUIREMENTS//////////
+
+1. PHP 8.0+
+2. Composer
+
+INSTALLATION GUIDE//////
+
+1. Clone repository
+2. Open project directory
+3. Run 'composer install'
+4. Open terminal, navigate to project repository and type php fast
+5. Track your fasts
 
 USE INSTRUCTIONS
 
+/////////
 MAIN MENU/////////////
 
 [1] Check a fast status

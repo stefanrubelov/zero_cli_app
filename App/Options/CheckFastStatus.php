@@ -10,8 +10,21 @@ use App\Validator\Validator;
 
 class CheckFastStatus
 {
+    /**
+     * @var Output $output
+     */
     private $output;
+
+    /**
+     * @var Menu $menu
+     */
     private $menu;
+
+    /**
+     * CheckFastStatus constructor
+     * @param Input $input
+     * @param Output $output
+     */
     public function __construct(
         protected Input $input,
         Output $output
@@ -19,13 +32,25 @@ class CheckFastStatus
         $this->output = $output;
         $this->menu = new Menu($this->input, $this->output, new Validator);
     }
+
+    /**
+     * CheckFastStatus invoke 
+     * 
+     * @return string:bool
+     */
     public function __invoke()
     {
         $this->checkFastStatus();
     }
-    public function checkFastStatus()
+
+    /**
+     * Outputs active fast if there is one, if not returns message
+     * 
+     * @return void
+     */
+    public function checkFastStatus(): void
     {
-        $data = json_decode(file_get_contents('./fasting_data.json'));
+        $data = json_decode(file_get_contents(FASTING_DATA_JSON_FILE));
         if ($data) {
             foreach ($data as $key => $value) {
                 foreach ($value as $item) {

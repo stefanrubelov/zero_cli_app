@@ -1,12 +1,11 @@
 #!/usr/bin/env php
 <?php
 
-date_default_timezone_set('Etc/GMT+0');
+require_once "./config.php";
+require_once "./vendor/autoload.php";
 
 use App\Console\Input;
 use App\Controllers\MainController;
-
-require_once "./vendor/autoload.php";
 
 $fast = new MainController(
     new Input()

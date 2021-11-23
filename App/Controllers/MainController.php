@@ -2,12 +2,20 @@
 
 namespace App\Controllers;
 
-use App\Console\Input;
 use App\Components\Menu;
+use App\Console\Input;
 
 class MainController
 {
+    /**
+     * @var Menu $menu
+     */
     private $menu;
+
+    /**
+     * FastController constructor
+     * @param Input $input
+     */
     public function __construct(
         protected Input $input
     ) {
@@ -16,9 +24,10 @@ class MainController
 
     /**
      * Run the app
-     *
+     * 
+     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->menu->mainMenu();
     }

@@ -8,14 +8,28 @@ use App\Components\Menu;
 
 class EndActiveFast
 {
+    /**
+     * @var Input $input
+     */
     private $input;
+
+    /**
+     * @var Output $output
+     */
     private $output;
+    /**
+     * @var Menu $menu
+     */
     private $menu;
+
+    /**
+     * @var bool $end_active_fast_error_flag
+     */
     private bool $end_active_fast_error_flag = false;
-    public function __invoke()
-    {
-        $this->endActiveFast();
-    }
+
+    /**
+     * EndActiveFast constructor
+     */
     public function __construct()
     {
         $this->input = new Input();
@@ -23,7 +37,23 @@ class EndActiveFast
         $this->menu = new Menu(new Input());
     }
 
-    public function endActiveFast()
+    /**
+     * EndActiveFast invoke 
+     * Outputs endActiveFast() method
+     * 
+     * @return string:bool
+     */
+    public function __invoke()
+    {
+        $this->endActiveFast();
+    }
+
+    /**
+     * Ends an active fast if there is one
+     * 
+     * @return void
+     */
+    public function endActiveFast(): void
     {
         if (!$this->end_active_fast_error_flag)
             echo $this->output->yellow('Are you sure you want to end the fast? [Y/N]');
@@ -32,13 +62,13 @@ class EndActiveFast
             $this->menu->mainMenu();
         } else if (strtolower($user_input) == 'y') {
             $new_data_arr = [];
-            $data = json_decode(file_get_contents('./fasting_data.json'), true);
+            $data = json_decode(file_get_contents(FASTING_DATA_JSON_FILE), true);
             if ($data) {
                 foreach ($data as $key => $value) {
                     $value['active'] = false;
                     array_push($new_data_arr, $value);
                 }
-                file_put_contents('./fasting_data.json', json_encode($new_data_arr));
+                file_put_contents(FASTING_DATA_JSON_FILE, json_encode($new_data_arr));
                 echo $this->output->magenta("----------------------------------------------");
                 echo $this->output->yellow("Fast ended.");
                 echo $this->output->magenta("----------------------------------------------");
