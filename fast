@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+require_once "./config.php";
+require_once "./vendor/autoload.php";
+
+use App\Console\Input;
+use App\Controllers\MainController;
+
+$fast = new MainController(
+    new Input()
+);
+$fast->run();
